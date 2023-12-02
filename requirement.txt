@@ -1,0 +1,10 @@
+flask
+pillow
+tensorflow
+flask_sqlalchemy
+sqlalchemy
+keras
+numpy
+scikit_image
+nltk
+

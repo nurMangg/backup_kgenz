@@ -1,0 +1,58 @@
+{% extends "user/layouts/main.html" %}
+
+{% block title %}
+    K-GenZ | Layanan
+{% endblock title %}
+
+{% block icons %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.svg')}}" type="image/x-icon">
+{% endblock icons %}
+
+
+{% include "user/layouts/navbar.html" %}
+
+{% block content1 %}
+<div class="layanan">
+    <div class="container">
+        <div class="text-center mt-5">
+            <h1 class="text-center">Fitur Deteksi Emosi / Stress</h1>
+        </div>
+        <div class="pilihan">
+            <div class="container text-center">
+                <div class="row row-layanan g-2">
+                    <div class="col-4" data-aos="zoom-in" data-aos-duration="1500">
+                        <a href="{{ url_for('camera')}}" class="text-decoration-none">
+                            <div class="imagelayanan">
+                                <img src="{{ url_for('static', filename='img/layanan2.png')}}" alt=""
+                                    class=" image-layanan">
+                            </div>
+                            <div class="p-3 text-paragraph">Analisi Ekspresi Wajahmu untuk Mendeteksi tingkatan Stress</div>
+                        </a>
+
+                    </div>
+                    <div class="col-4" data-aos="zoom-in" data-aos-duration="1500">
+                        <a href="{{ url_for('chatbot')}}" class="text-decoration-none">
+                            <div class="imagelayanan">
+                                <img src="{{ url_for('static', filename='img/layanan3.png')}}" alt=""
+                                    class="image-layanan">
+                            </div>
+                            <div class="p-3 text-paragraph">Mulai mengobrol dengan kami</div>
+                        </a>
+                    </div>
+                    <div class="col-4" data-aos="zoom-in" data-aos-duration="1500">
+                        <a href="{{ url_for('history')}}" class="text-decoration-none">
+                            <div class="imagelayanan">
+                                <img src="{{ url_for('static', filename='img/layanan1.png')}}" alt=""
+                                    class="image-layanan">
+                            </div>
+                            <div class="p-3 text-paragraph">Lihat Riwayat Tingkatan Stress kamu</div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

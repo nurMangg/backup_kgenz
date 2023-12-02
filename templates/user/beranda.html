@@ -1,0 +1,51 @@
+{% extends "user/layouts/main.html" %}
+
+{% block title %}
+    K-GenZ | Beranda
+{% endblock title %}
+
+
+{% include "user/layouts/navbar.html" %}
+
+{% block content1 %}
+<div class="call-to-action">
+    <div class="container">
+        <div class="row g-2">
+            <div class="col-md-8 text">
+                <div class="">
+                    <h1>call-to-action</h1><br>
+                    <h3>"Jaga Kesehatan Mentalmu Mulai Sekarang"</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="image">
+                    <img src="{{ url_for('static', filename='img/vector-1.png')}}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block content2 %}
+<div class="layanan-unggulan">
+    <div class="container">
+        <div class="row g-2">
+            <div class="col-md-8">
+                <div class="image">
+                    <img src="{{ url_for('static', filename='img/vector-2.png')}}" alt="">
+                    <h2>Teknik Relaksasi</h2>
+                </div>
+            </div>
+            <div class="col-md-4 text">
+                <div class="">
+                    <h1>Layanan Unggulan</h1>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

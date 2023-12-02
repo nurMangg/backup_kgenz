@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Deteksi</title>
+
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/favicon.svg')}}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+</head>
+
+<style>
+    html,
+    body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .size-beranda {
+        font-size: larger;
+        font-family: poppins;
+        color: #11009E;
+        font-weight: bold;
+    }
+
+    .layanan-unggulan-camera {
+        margin-top: -250px;
+        height: 60%;
+        background-color: #11009E;
+        color: white;
+    }
+
+    .box {
+        border-radius: 10px;
+        background-color: #e3e3e3;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .box-header {
+        border-radius: 10px;
+        background-color: #11009e;
+        align-self: stretch;
+        display: flex;
+        /* margin-bottom: -88px; */
+        flex-direction: column;
+        padding: 17px 80px;
+    }
+
+    .text-head {
+        color: #fff;
+        text-align: center;
+        align-self: center;
+        max-width: 361px;
+        font: 700 20px Inter, sans-serif;
+    }
+
+    .box-camera {
+        padding: 10px;
+    }
+
+    .video-webcam {
+
+        width: 600px;
+        height: 200px;
+        border: 1px solid #000;
+        overflow: hidden;
+        /* Menghindari tampilan yang melebihi kotak */
+    }
+
+
+    .image-logo {
+        position: absolute;
+        top: 150px;
+        right: 500px;
+        width: 100px;
+        height: 100px;
+    }
+</style>
+
+<body>
+    <div class="navbar">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
+            <div class="container-fluid ms-5">
+                <img class="navbar-brand" src="{{ url_for('static', filename='img/logo.png')}}" width="300px"
+                    height="75px" alt="">
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="image-logo">
+        <img src="{{ url_for('static', filename='/img/camera.png')}}" alt="Logo-Kamera">
+    </div>
+
+    <div class="call-to-action">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text">
+                    <div class="box p-3">
+                        <h1 class="text-center" style="font-family: poppins; font-weight: bold; font-size: x-large;">Hasil Tingkat Stress Anda :</h1>
+                        <img src="{{ url_for('static', filename='/uploads/' + sh_img )}}" class="p-3 text-center" style="text-align: center; align-items: center;" width="400px" height="400px">
+                        {% if predict %}
+                        <p class="text-dark text-center font-weight-bold">Anda Mengalami Tingkat Stress : {{predict}}</p>
+                        {% else %}
+                        <p class=" text-dark font-weight-bold">{{err}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="row g-2 mt-3">
+                        <div class="col-md-6">
+                            <a href="{{ url_for('camera') }}" class="w-50">
+                                <div class="btn btn-primary me-2 w-100">Kembali</div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ url_for('layanan') }}" class="w-50">
+                                <div class="btn btn-primary me-2 w-100">Layanan</div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layanan-unggulan-camera">
+        <div class="container">
+
+        </div>
+    </div>
+
+
+
+
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script>
+        const video = document.getElementById('video');
+        const capturedImage = document.getElementById('capturedImage');
+        const captureButton = document.getElementById('capture');
+        const constraints = {
+            video: true
+        };
+
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('Gagal mengakses kamera:', error);
+            }
+        }
+
+        initCamera();
+
+        captureButton.addEventListener('click', function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageDataURL = canvas.toDataURL('image/jpeg');
+            const image_data = imageDataURL; // Variabel image_data didefinisikan di sini
+            capturedImage.src = imageDataURL;
+            console.log(imageDataURL)
+
+            // Kirim gambar ke server menggunakan JavaScript fetch API atau XMLHttpRequest
+            fetch('/upload', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        image: image_data
+                    }), // Menggunakan variabel yang telah didefinisikan
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Gagal mengunggah gambar:', error));
+        });
+    </script>
+</body>
+
+</html>
